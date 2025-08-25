@@ -3,6 +3,7 @@ from player import *
 from asteroidfield import *
 import pygame
 import sys
+import math
 def main():
 
     pygame.init()
@@ -36,7 +37,12 @@ def main():
             if player.check_for_collisions(each_asteroid):
                 print("Game over!")
                 sys.exit()
-
+        for each_asteroid in asteroids_group:
+            for shot in shots_group:
+                distance = math.dist(shot.position, each_asteroid.position)
+                if distance < shot.radius + each_asteroid.radius:
+                    shot.kill()
+                    each_asteroid.split()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE]:
             player.shoot()
